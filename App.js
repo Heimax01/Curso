@@ -1,58 +1,61 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React, {Component} from 'react';
+import {View,Text,StyleSheet,Picker} from 'react-native';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+export default class PrimeiroProjeto extends Component {
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+    constructor(props) {
+      super(props);
+      this.state = {servico:0,
+                    servicos:[
+                      {nome:'Alinhamento', valor:30},
+                      {nome:'Balanciamento', valor:20},
+                      {nome:'Rodízio de Pneus', valor:50},
+                      {nome:'Dar uma voltinha', valor:10}
+                   ]};
+    }
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
-}
+
+    render() {
+
+
+        let servicosItems = this.state.servicos.map((v, k) => {
+                return <Picker.Item key={k} value={k} label={v.nome} />
+        });   
+
+
+      return (
+        <View style={styles.body}>
+              <Text style={styles.logo}> Autopeças Heitor </Text>
+              <Picker selectedValue={this.state.servico} onValueChange={(itemValue, itemIndex) => this.setState({servico:itemValue})}>
+                    {servicosItems}
+              </Picker>
+              <Text style={styles.texto}>R$ {this.state.servicos[this.state.servico].valor.toFixed(2)}</Text>
+
+        </View>
+      );
+    }
+
+
+} 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+
+
+    body:{
+      paddingTop:20,
+      backgroundColor:'#DDDDDD',
+      flex:1
+    },
+    logo:{
+      fontSize:30,
+      textAlign:'center',
+      marginBottom:20
+    },
+    texto:{
+      fontSize:26,
+      textAlign:'center',
+      marginTop:20
+
+    }
+
 });
